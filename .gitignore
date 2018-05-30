@@ -1,3 +1,6 @@
+.ipynb_checkpoints/
+*.html
 *.pyc
 /.idea/
+*.png
 .DS_Store
