@@ -19,8 +19,8 @@ explore_rate = 1
 
 #show explore rate data
 rate_data = []
-#show max_step in every episode
-show_steps = []
+#show score in every episode
+show_scores = []
 for epsode in  range(epsodes):
     rate_data.append(explore_rate)
     state = env.reset()
@@ -36,11 +36,11 @@ for epsode in  range(epsodes):
         q_table[state, action] = q_table[state][action] + \
                                  learn_rate * (gamma*np.max(q_table[new_state,:]) - q_table[state, action] + reward)
         if done:
-            show_steps.append(step+1)
+            show_scores.append(reward)
             break
         state = new_state
-    if len(show_steps) <= epsode:
-        show_steps.append(max_step)
+    if len(show_scores) <= epsode:
+        show_scores.append(0)
     explore_rate -= (1 - min_explore_rate) / epsodes
 
 print(q_table)
@@ -48,13 +48,13 @@ print(q_table)
 
 p = figure(title="the explore rate in every episode", width=800, height=800)
 p.title.align = "center"
-#plot the steps in every episode
-p.line(y=show_steps, x=range(len(show_steps)), color= "navy", legend = "stpes")
+#plot the score in every episode
+p.line(y=show_scores, x=range(len(show_scores)), color= "navy", legend = "sores")
 #plot the change of export_rate
-p.line(y=[item*100 for item in rate_data], x=range(len(rate_data)), color="red", legend = "explore rate")
+p.line(y=rate_data, x=range(len(rate_data)), color="red", legend = "explore rate")
 p.xaxis.axis_label = "episode"
-p.yaxis.axis_label = "explore rate: % / steps"
-
+p.yaxis.axis_label = "explore rate / score"
+p.legend.location = "center_right"
 output_file("explore_rate.html")
 show(p)
 

@@ -33,9 +33,8 @@ decay_rate = 0.001             # Exponential decay rate for exploration prob
 
 #show explord rate data
 rate_data = []
-#show max_step in every episode
-show_steps = []
-
+#show score in every episode
+show_scores = []
 # List of rewards
 rewards = []
 
@@ -74,10 +73,10 @@ for episode in range(total_episodes):
         
         # If done (if we're dead) : finish episode
         if done == True:
-            show_steps.append(step + 1)
+            show_scores.append(reward)
             break
-    if len(show_steps) <= episode:
-            show_steps.append(max_steps)
+    if len(show_scores) <= episode:
+        show_scores.append(0)
     # Reduce epsilon (because we need less and less exploration)
     epsilon = min_epsilon + (max_epsilon - min_epsilon)*np.exp(-decay_rate*episode) 
     rewards.append(total_rewards)
@@ -88,12 +87,12 @@ print(qtable)
 p = figure(title="the explore rate in every episode", width=800, height=800)
 p.title.align = "center"
 #plot the steps in every episode
-p.line(y=show_steps, x=range(len(show_steps)), color= "navy", legend = "stpes")
+p.line(y=show_scores, x=range(len(show_scores)), color= "navy", legend = "score")
 #plot the change of export_rate
-p.line(y=[item*100 for item in rate_data], x=range(len(rate_data)), color="red", legend = "explord rate")
+p.line(y=rate_data, x=range(len(rate_data)), color="red", legend = "explore rate")
 p.xaxis.axis_label = "episode"
-p.yaxis.axis_label = "explore rate: % / steps"
-
+p.yaxis.axis_label = "explore rate: % / scores"
+p.legend.location = "center_right"
 output_file("explore_rate.html")
 show(p)
 
