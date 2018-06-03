@@ -49,7 +49,7 @@ print(q_table)
 p = figure(title="the explore rate in every episode", width=800, height=800)
 p.title.align = "center"
 #plot the score in every episode
-p.line(y=show_scores, x=range(len(show_scores)), color= "navy", legend = "sores")
+p.circle(y=show_scores, x=range(len(show_scores)), color= "navy", legend = "sores", alpha=0.1)
 #plot the change of export_rate
 p.line(y=rate_data, x=range(len(rate_data)), color="red", legend = "explore rate")
 p.xaxis.axis_label = "episode"
